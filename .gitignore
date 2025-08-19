@@ -1,0 +1,108 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+downloads/
+.eggs/
+.eggs-info/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.pytest_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+env.bak/
+venv.bak/
+.conda/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# IDEs
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Model weights / checkpoints / large assets
+# (don't commit model binaries)
+weights/
+checkpoints/
+models_weights/
+*.pt
+*.pth
+*.onnx
+*.pb
+
+# Project outputs / data
+data/outputs/
+data/videos/
+outputs/
+results/
+
+# Environment / secret files
+.env
+.env.*
+credentials.json
+local_settings.py
+
+# Python packaging
+*.egg
+*.whl
+
+# Other
+coverage/
+.rst.checkpoints
+
+# Keep project source files (do not ignore src/ or models/ .py files)
+# If you want to ignore specific generated files add patterns above
