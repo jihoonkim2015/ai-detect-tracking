@@ -9,13 +9,15 @@ from pathlib import Path
 from utils.config import Config
 
 class VideoProcessor:
-    def __init__(self, source=0, output_path=None):
+    def __init__(self, source=0, output_path=None, desired_width=None, desired_height=None):
         """
         비디오 프로세서 초기화
         
         Args:
             source (str/int): 비디오 소스 (0: 웹캠, 문자열: 파일 경로)
             output_path (str): 출력 파일 경로 (None인 경우 자동 생성)
+            desired_width (int): 캡처에 설정할 너비 (웹캠 전용, 선택)
+            desired_height (int): 캡처에 설정할 높이 (웹캠 전용, 선택)
         """
         self.source = source
         self.output_path = output_path
@@ -24,6 +26,8 @@ class VideoProcessor:
         self.fps = Config.VIDEO_FPS
         self.frame_count = 0
         self.total_frames = 0
+        self.desired_width = desired_width
+        self.desired_height = desired_height
         
         # 입력 소스 초기화
         self._initialize_source()
@@ -39,6 +43,19 @@ class VideoProcessor:
         print(f"비디오 소스 초기화: {self.source}")
         
         self.cap = cv2.VideoCapture(self.source)
+        
+        # 원하는 해상도가 지정된 경우 캡처 속성으로 설정 (웹캠에만 적용됨)
+        if self.cap.isOpened() and (self.desired_width or self.desired_height):
+            if self.desired_width:
+                try:
+                    self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, int(self.desired_width))
+                except Exception:
+                    pass
+            if self.desired_height:
+                try:
+                    self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, int(self.desired_height))
+                except Exception:
+                    pass
         
         if not self.cap.isOpened():
             raise ValueError(f"비디오 소스를 열 수 없습니다: {self.source}")

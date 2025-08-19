@@ -30,13 +30,37 @@ def run_demo():
                 print("종료하려면 'q'를 누르세요.")
                 print("트래커 리셋: 'r'")
                 print("스크린샷 저장: 's'")
-                
-                subprocess.run([
+
+                # 해상도 선택 메뉴
+                try:
+                    res_choice = input("해상도를 선택하세요 (1: 640x480, 2: 1280x720, 3: 1920x1080, 4: Custom, Enter: 기본): ").strip()
+                    cam_w = None
+                    cam_h = None
+                    if res_choice == '1':
+                        cam_w, cam_h = 640, 480
+                    elif res_choice == '2':
+                        cam_w, cam_h = 1280, 720
+                    elif res_choice == '3':
+                        cam_w, cam_h = 1920, 1080
+                    elif res_choice == '4':
+                        cam_w = int(input('원하는 너비(px)를 입력하세요: ').strip())
+                        cam_h = int(input('원하는 높이(px)를 입력하세요: ').strip())
+                except Exception:
+                    cam_w = None
+                    cam_h = None
+
+                cmd = [
                     sys.executable, "main.py",
                     "--source", "0",
                     "--save-txt",
                     "--save-conf"
-                ])
+                ]
+                if cam_w:
+                    cmd.extend(["--cam-width", str(cam_w)])
+                if cam_h:
+                    cmd.extend(["--cam-height", str(cam_h)])
+
+                subprocess.run(cmd)
                 
             elif choice == '2':
                 # 비디오 파일 찾기

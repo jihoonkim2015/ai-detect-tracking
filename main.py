@@ -26,7 +26,7 @@ from utils.visualization import Visualizer
 from utils.config import Config
 
 class AIDetectionTracker:
-    def __init__(self, source=0, output_dir=None, save_txt=False, save_conf=False):
+    def __init__(self, source=0, output_dir=None, save_txt=False, save_conf=False, cam_width=None, cam_height=None):
         """
         AI 감지 및 트래킹 시스템 초기화
         
@@ -40,6 +40,8 @@ class AIDetectionTracker:
         self.output_dir = output_dir or Config.OUTPUT_DIR
         self.save_txt = save_txt
         self.save_conf = save_conf
+        self.cam_width = cam_width
+        self.cam_height = cam_height
         
         # 출력 디렉토리 생성
         os.makedirs(self.output_dir, exist_ok=True)
@@ -118,8 +120,8 @@ class AIDetectionTracker:
         if Config.SAVE_VIDEO:
             output_path = create_output_path(self.source, "tracked")
         
-        # 비디오 프로세서 초기화
-        video_processor = VideoProcessor(self.source, output_path)
+        # 비디오 프로세서 초기화 (캠 해상도 전달)
+        video_processor = VideoProcessor(self.source, output_path, desired_width=self.cam_width, desired_height=self.cam_height)
         
         print(f"비디오 처리 시작: {self.source}")
         if output_path:
@@ -344,6 +346,10 @@ def parse_arguments():
     
     parser.add_argument('--no-save', action='store_true',
                        help='비디오 저장 비활성화')
+
+    # Camera resolution options for webcam
+    parser.add_argument('--cam-width', type=int, default=None, help='웹캠 캡처 너비 (픽셀)')
+    parser.add_argument('--cam-height', type=int, default=None, help='웹캠 캡처 높이 (픽셀)')
     
     return parser.parse_args()
 
@@ -370,7 +376,9 @@ def main():
             source=source,
             output_dir=args.output_dir,
             save_txt=args.save_txt,
-            save_conf=args.save_conf
+            save_conf=args.save_conf,
+            cam_width=args.cam_width,
+            cam_height=args.cam_height
         )
         
         # 입력 타입에 따른 처리
